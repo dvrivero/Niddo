@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NIDDO — La maceta que desaparece sola</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --cafe-oscuro: #2C1A0E;
+      --cafe-medio: #6B3F2A;
+      --cafe-claro: #A0623A;
+      --arena:      #C8A882;
+      --crema:      #F5EEE6;
+      --verde:      #4A7C59;
+      --verde-claro:#7BB08C;
+      --blanco:     #FDFAF7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--blanco);
+      color: var(--cafe-oscuro);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAVBAR / LOGO ─── */
+    .navbar-niddo {
+      background: var(--blanco);
+      border-bottom: 1px solid rgba(44,26,14,.08);
+      padding: 18px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo-svg {
+      width: 130px;
+      height: auto;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: linear-gradient(150deg, var(--cafe-oscuro) 0%, #3D2210 60%, #5A3220 100%);
+      color: white;
+      padding: 100px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 50%, rgba(160,98,58,.25) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(74,124,89,.12) 0%, transparent 70%);
+    }
+
+    .hero-pre {
+      font-size: .95rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--arena);
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: var(--arena);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,.75);
+      line-height: 1.75;
+      max-width: 480px;
+    }
+
+    .badge-hero {
+      background: rgba(255,255,255,.1);
+      backdrop-filter: blur(6px);
+      color: white;
+      border: 1px solid rgba(255,255,255,.15);
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: .82rem;
+      font-weight: 500;
+    }
+
+    .btn-cta {
+      background: linear-gradient(135deg, var(--cafe-claro), var(--cafe-medio));
+      color: white !important;
+      border: none;
+      padding: 16px 36px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: .03em;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 10px 30px rgba(107,63,42,.45);
+    }
+
+    .btn-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(107,63,42,.55);
+    }
+
+    .hero-product-img {
+      border-radius: 24px;
+      box-shadow: 0 32px 70px rgba(0,0,0,.4);
+      border: 4px solid rgba(255,255,255,.08);
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .hero-floating-card {
+      background: white;
+      color: var(--cafe-oscuro);
+      padding: 14px 20px;
+      border-radius: 14px;
+      display: inline-block;
+      margin-top: -20px;
+      position: relative;
+      font-weight: 700;
+      box-shadow: 0 12px 30px rgba(0,0,0,.2);
+      font-size: .95rem;
+    }
+
+    /* ─── EYEBROW ─── */
+    .section-eyebrow {
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      color: var(--cafe-claro);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1.2;
+      color: var(--cafe-oscuro);
+    }
+
+    /* ─── GALERÍA ─── */
+    .gallery-section { background: var(--blanco); }
+
+    .gallery-img {
+      width: 100%;
+      border-radius: 20px;
+      object-fit: cover;
+      aspect-ratio: 4/3;
+      transition: transform .35s ease, box-shadow .35s ease;
+      box-shadow: 0 12px 28px rgba(0,0,0,.08);
+    }
+
+    .gallery-img:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 45px rgba(0,0,0,.14);
+    }
+
+    /* ─── MACETAS ─── */
+    .macetas-section {
+      background: linear-gradient(180deg, var(--blanco) 0%, var(--crema) 100%);
+    }
+
+    .maceta-card {
+      background: white;
+      border-radius: 24px;
+      padding: 36px 28px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.07);
+      transition: transform .3s ease, box-shadow .3s ease;
+      height: 100%;
+      border: 1px solid rgba(200,168,130,.2);
+    }
+
+    .maceta-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 60px rgba(0,0,0,.13);
+    }
+
+    .maceta-img-wrap {
+      width: 100%;
+      height: 200px;
+      margin: 0 auto 24px;
+      overflow: hidden;
+      border-radius: 16px;
+      background: var(--crema);
+    }
+
+    .maceta-product-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s ease;
+    }
+
+    .maceta-card:hover .maceta-product-img {
+      transform: scale(1.05);
+    }
+
+    .maceta-icon-wrap {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .maceta-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: var(--cafe-oscuro);
+      margin-bottom: 12px;
+    }
+
+    .maceta-card p {
+      font-size: .95rem;
+      color: #6b5a4e;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .maceta-tag {
+      display: inline-block;
+      background: var(--crema);
+      color: var(--cafe-medio);
+      border-radius: 50px;
+      padding: 5px 14px;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .05em;
+    }
+
+    /* ─── TESTIMONIOS ─── */
+    .testimonios-section {
+      background: linear-gradient(150deg, var(--cafe-oscuro) 0%, #3D2210 100%);
+    }
+
+    .testimonio-card {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 20px;
+      padding: 28px;
+      height: 100%;
+      backdrop-filter: blur(8px);
+      transition: background .3s;
+    }
+
+    .testimonio-card:hover {
+      background: rgba(255,255,255,.11);
+    }
+
+    .stars { color: #F5C842; font-size: 1.1rem; margin-bottom: 14px; }
+
+    .testimonio-card p {
+      color: rgba(255,255,255,.82);
+      font-size: .95rem;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .testimonial-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,.2);
+    }
+
+    /* ─── CTA FINAL ─── */
+    .cta-final {
+      background: var(--crema);
+      padding: 100px 0;
+      text-align: center;
+    }
+
+    .price-highlight {
+      background: white;
+      display: inline-block;
+      padding: 32px 48px;
+      border-radius: 24px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.1);
+      margin-bottom: 32px;
+    }
+
+    .old-price {
+      text-decoration: line-through;
+      color: #aaa;
+      font-size: 1rem;
+    }
+
+    .price-big {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.8rem;
+      color: var(--cafe-oscuro);
+      line-height: 1;
+      margin: 4px 0 8px;
+    }
+
+    .launch-badge {
+      background: linear-gradient(135deg,#e8693d,#c04a2a);
+      color: white;
+      border-radius: 50px;
+      padding: 5px 16px;
+      font-size: .82rem;
+      font-weight: 700;
+    }
+
+    /* ─── STICKY BTN MOBILE ─── */
+    .sticky-mobile-btn {
+      position: fixed;
+      bottom: 0; left: 0;
+      width: 100%;
+      background: linear-gradient(135deg, var(--cafe-claro), var(--cafe-medio));
+      color: white !important;
+      text-align: center;
+      padding: 16px;
+      font-weight: 700;
+      font-size: 1rem;
+      z-index: 9999;
+      text-decoration: none;
+      display: none;
+      transition: opacity .2s;
+    }
+
+    @media (max-width: 768px) {
+      .sticky-mobile-btn { display: block; }
+      body { padding-bottom: 72px; }
+      .price-big { font-size: 2.8rem; }
+      .hero { padding: 70px 0 60px; }
+    }
+
+    /* ─── FADE IN ANIMATION ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up { animation: fadeUp .7s ease both; }
+    .delay-1 { animation-delay: .15s; }
+    .delay-2 { animation-delay: .3s;  }
+    .delay-3 { animation-delay: .45s; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════
+     NAVBAR / LOGO
+═══════════════════════════ -->
+<nav class="navbar-niddo">
+  <div class="container d-flex justify-content-between align-items-center">
+
+    <img src="img/NiddoLogo.png" alt="NIDDO Logo" class="logo-svg">
+
+    <a href="https://wa.me/573001112233?text=Hola,%20quiero%20comprar%20mi%20Kit%20NIDDO"
+       target="_blank"
+       class="btn-cta d-none d-md-inline-block"
+       style="padding:12px 28px;font-size:.9rem;">
+      🌱 Comprar — $30.000
+    </a>
+
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════
+     HERO
+═══════════════════════════ -->
+<section class="hero">
+  <div class="container position-relative">
+    <div class="row align-items-center g-5">
+
+      <div class="col-lg-6">
+        <p class="hero-pre fade-up">¿Cansado de dañar tus plantas al trasplantar?</p>
+
+        <h1 class="fade-up delay-1">
+          Descubre la maceta que
+          <span>desaparece sola</span>
+          y nutre tu planta desde adentro
+        </h1>
+
+        <p class="hero-sub mt-3 fade-up delay-2">
+          La única maceta biodegradable que va directo a la tierra — sin trasplante, sin residuos y sin estrés para tus raíces.
+        </p>
+
+        <div class="d-flex flex-wrap gap-2 mt-4 fade-up delay-2">
+          <span class="badge-hero"> Biodegradable</span>
+          <span class="badge-hero"> Perfecto para regalar</span>
+          <span class="badge-hero"> Kit completo</span>
+        </div>
+
+        <div class="mt-4 fade-up delay-3">
+          <a href="https://wa.me/573001112233?text=Hola,%20quiero%20comprar%20mi%20Kit%20NIDDO"
+             target="_blank"
+             class="btn-cta">
+            🌱 Quiero mi Kit NIDDO
+          </a>
+        </div>
+      </div>
+
+      <div class="col-lg-5 text-center fade-up delay-2">
+        <img src="img/Niddo-kit.png"
+             class="hero-product-img"
+             alt="Kit NIDDO">
+        <div class="hero-floating-card mt-3">
+          🌱 100% biodegradable
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════
+     GALERÍA
+═══════════════════════════ -->
+<section class="gallery-section py-5">
+  <div class="container py-4">
+
+    <div class="row justify-content-center mb-5">
+      <div class="col-lg-7 text-center">
+        <p class="section-eyebrow">Así se ve NIDDO</p>
+        <h2 class="section-title">Un regalo que florece y decora</h2>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <img src="img/Niddo-Stand.jpeg" class="gallery-img" alt="NIDDO Stand">
+      </div>
+      <div class="col-md-6">
+        <img src="img/NiddoStand2.jpeg" class="gallery-img" alt="Kit NIDDO">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════
+     SECCIÓN MACETAS
+═══════════════════════════ -->
+<section class="macetas-section py-5">
+  <div class="container py-4">
+
+    <div class="row justify-content-center mb-5">
+      <div class="col-lg-7 text-center">
+        <p class="section-eyebrow">Nuestros diseños</p>
+        <h2 class="section-title">Elige la maceta que va con tu estilo</h2>
+        <p class="mt-3 text-muted" style="font-size:.97rem;line-height:1.7;">
+          Cada maceta NIDDO es 100% biodegradable, elaborada con materiales naturales
+          y lista para ser enterrada completa junto con tu planta.
+        </p>
+      </div>
+    </div>
+
+    <div class="row g-4">
+
+      <!-- Maceta 1: Cilindro -->
+      <div class="col-md-4 d-flex">
+        <div class="maceta-card text-center w-100">
+
+          <div class="maceta-img-wrap">
+            <img src="img/Maceta1.png" alt="Maceta Cilindro" class="maceta-product-img">
+          </div>
+
+          <span class="maceta-tag mb-3 d-inline-block">Maceta Cilindro</span>
+          <h4>Clásica y minimalista</h4>
+          <p>
+            Forma cilíndrica perfecta para cualquier espacio. Su diseño limpio y moderno
+            encaja tanto en escritorios de oficina como en ventanas del hogar.
+            Ideal para suculentas, hierbas y flores pequeñas.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2 justify-content-center mt-auto">
+            <span class="maceta-tag"> Fibra natural</span>
+            <span class="maceta-tag"> Interior/Exterior</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Maceta 2: Puercoespín -->
+      <div class="col-md-4 d-flex">
+        <div class="maceta-card text-center w-100" style="border-color:rgba(74,124,89,.3);">
+
+          <div class="maceta-img-wrap">
+            <img src="img/Maceta2.png" alt="Maceta Puercoespín" class="maceta-product-img">
+          </div>
+
+          <span class="maceta-tag mb-3 d-inline-block" style="background:#eaf5ee;color:#4A7C59;">Maceta Puercoespín</span>
+          <h4>Única e inolvidable</h4>
+          <p>
+            La favorita de todos. Su forma de puercoespín con pequeñas plantas brotando
+            por cada púa la convierte en una pieza de decoración que todo el mundo
+            quiere tocar y fotografiar.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2 justify-content-center mt-auto">
+            <span class="maceta-tag" style="background:#eaf5ee;color:#4A7C59;"> Diseño exclusivo</span>
+            <span class="maceta-tag" style="background:#eaf5ee;color:#4A7C59;"> Top regalo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Maceta 3: Tazón -->
+      <div class="col-md-4 d-flex">
+        <div class="maceta-card text-center w-100" style="border-color:rgba(160,98,58,.3);">
+
+          <div class="maceta-img-wrap">
+            <img src="img/Maceta3.png" alt="Maceta Tazón" class="maceta-product-img">
+          </div>
+
+          <span class="maceta-tag mb-3 d-inline-block">Maceta Tazón</span>
+          <h4>Amplia y generosa</h4>
+          <p>
+            Su forma abierta en tazón permite cultivar varias plantas a la vez
+            o una sola con espacio para crecer con libertad. Perfecta para
+            centros de mesa y jardines de interior.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2 justify-content-center mt-auto">
+            <span class="maceta-tag"> Multi-planta</span>
+            <span class="maceta-tag"> Centro de mesa</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════
+     TESTIMONIOS
+═══════════════════════════ -->
+<section class="testimonios-section py-5">
+  <div class="container py-4">
+
+    <div class="row justify-content-center mb-5">
+      <div class="col-lg-7 text-center">
+        <p class="section-eyebrow" style="color:var(--arena)">Opiniones reales</p>
+        <h2 class="section-title" style="color:var(--crema);">Personas que ya probaron NIDDO</h2>
+      </div>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-md-4">
+        <div class="testimonio-card">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <svg class="testimonial-avatar" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="30" r="30" fill="#F7D6C0"/>
+              <ellipse cx="30" cy="26" rx="13" ry="14" fill="#F4B98A"/>
+              <ellipse cx="30" cy="52" rx="18" ry="14" fill="#E8956A"/>
+              <ellipse cx="24" cy="24" rx="3" ry="3.5" fill="white"/><circle cx="24" cy="24" r="2" fill="#3D2210"/>
+              <ellipse cx="36" cy="24" rx="3" ry="3.5" fill="white"/><circle cx="36" cy="24" r="2" fill="#3D2210"/>
+              <path d="M25 31 Q30 35 35 31" stroke="#c0735a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <!-- pelo largo -->
+              <path d="M17 20 Q14 10 30 10 Q46 10 43 20" fill="#3D1F0D"/>
+              <path d="M17 20 Q13 30 15 40" fill="#3D1F0D"/>
+              <path d="M43 20 Q47 30 45 40" fill="#3D1F0D"/>
+            </svg>
+            <div>
+              <strong style="color:white;">Valentina R.</strong>
+              <div style="font-size:.8rem;color:rgba(255,255,255,.55);">Cliente verificada</div>
+            </div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p>"La regalé y todos preguntaron dónde la compré. El erizo es demasiado bonito."</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="testimonio-card">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <svg class="testimonial-avatar" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="30" r="30" fill="#D4EAD8"/>
+              <ellipse cx="30" cy="52" rx="18" ry="14" fill="#5A8F6A"/>
+              <ellipse cx="30" cy="26" rx="13" ry="14" fill="#C8956A"/>
+              <ellipse cx="24" cy="24" rx="3" ry="3.5" fill="white"/><circle cx="24" cy="24" r="2" fill="#2C1A0E"/>
+              <ellipse cx="36" cy="24" rx="3" ry="3.5" fill="white"/><circle cx="36" cy="24" r="2" fill="#2C1A0E"/>
+              <path d="M25 31 Q30 35 35 31" stroke="#a0623a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <!-- pelo corto -->
+              <path d="M18 22 Q17 10 30 9 Q43 10 42 22 Q40 14 30 13 Q20 14 18 22Z" fill="#1A0D06"/>
+              <!-- barba leve -->
+              <path d="M24 34 Q30 38 36 34" stroke="rgba(60,30,10,.3)" stroke-width="1" fill="none"/>
+            </svg>
+            <div>
+              <strong style="color:white;">Camilo M.</strong>
+              <div style="font-size:.8rem;color:rgba(255,255,255,.55);">Cliente verificado</div>
+            </div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p>"No pensé que una maceta pudiera verse tan aesthetic. Se ve hermosa en mi escritorio."</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="testimonio-card">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <svg class="testimonial-avatar" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="30" r="30" fill="#FDE8D0"/>
+              <ellipse cx="30" cy="52" rx="18" ry="14" fill="#C8A882"/>
+              <ellipse cx="30" cy="26" rx="13" ry="14" fill="#F0B07A"/>
+              <ellipse cx="24" cy="24" rx="3" ry="3.5" fill="white"/><circle cx="24" cy="24" r="2" fill="#3D2210"/>
+              <ellipse cx="36" cy="24" rx="3" ry="3.5" fill="white"/><circle cx="36" cy="24" r="2" fill="#3D2210"/>
+              <path d="M25 32 Q30 36 35 32" stroke="#b07050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <!-- coleta -->
+              <path d="M17 18 Q18 8 30 8 Q42 8 43 18" fill="#8B4513"/>
+              <path d="M43 18 Q50 20 48 28 Q46 22 43 20Z" fill="#8B4513"/>
+              <circle cx="48" cy="18" r="3" fill="#A0623A"/>
+            </svg>
+            <div>
+              <strong style="color:white;">Andrea L.</strong>
+              <div style="font-size:.8rem;color:rgba(255,255,255,.55);">Cliente verificada</div>
+            </div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p>"Lo mejor es que simplemente la enterré completa y la planta siguió creciendo perfecta."</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════
+     CTA FINAL
+═══════════════════════════ -->
+<section class="cta-final">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 text-center">
+
+        <p style="font-size:2rem;margin-bottom:8px;">🌱</p>
+
+        <h2 class="section-title mb-3">
+          Haz que tu próxima planta crezca diferente
+        </h2>
+
+        <p style="color:var(--cafe-medio);font-size:1.05rem;line-height:1.8;margin-bottom:36px;">
+          NIDDO es una forma más natural, bonita y sostenible de sembrar.
+        </p>
+
+        <div class="price-highlight">
+          <div class="old-price">$55.000 COP</div>
+          <div class="price-big">$30.000 COP</div>
+          <span class="launch-badge"> Precio de lanzamiento</span>
+        </div>
+
+        <br><br>
+
+        <a href="https://wa.me/573001112233?text=Hola,%20quiero%20comprar%20mi%20Kit%20NIDDO"
+           target="_blank"
+           class="btn-cta"
+           style="font-size:1.1rem;padding:18px 44px;">
+          🌿 Comprar por WhatsApp
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════
+     FOOTER
+═══════════════════════════ -->
+<footer style="background:var(--cafe-oscuro);color:rgba(255,255,255,.45);text-align:center;padding:24px;">
+  <small>© 2025 NIDDO — Macetas Vivas · Hecho con 🌿 en Colombia</small>
+</footer>
+
+
+<!-- STICKY MOBILE BTN -->
+<a href="https://wa.me/573001112233?text=Hola,%20quiero%20comprar%20mi%20Kit%20NIDDO"
+   target="_blank"
+   class="sticky-mobile-btn">
+  🌱 Comprar NIDDO — $30.000
+</a>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
